@@ -1,0 +1,101 @@
+<header class="mb-5 mt-0 p-3 bg-primary text-white" id="dashboard-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <h1>
+            <i class="pr-2 fa fa-book"></i>
+            Client Details
+          </h1>
+        </div>
+  
+        <div class="col-md-3">
+          <a routerLink="/" class="btn btn-light btn-block">
+            <i class="fa fa-arrow-circle-o-left"></i>
+            Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+<section id="clients-details">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="btn-group pull-left">
+          <a routerLink="['/edit-client/' + id]" role="button" class="btn btn-dark">
+            Edit Client
+          </a>
+
+         <button (click)="click_to_delete()" type="button" class="btn btn-danger">
+           Delete Client
+         </button>
+        </div> <!-- btn group -->
+      </div> <!-- col md 6 -->
+    </div> <!-- row -->
+
+    <div *ngIf="client" class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          {{ client.firstName }} {{ client.lastName }} 
+        </h3>
+      </div> <!-- card header -->
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+            <h4>
+              Client ID: {{ id }}
+            </h4>
+
+          </div> <!-- col md 8 -->
+
+          <div class="col-md-4">
+            <h3 class="pull-right">
+              Balance
+              <span
+              [class.text-danger]="has_balance"
+              [class.text-success]="!has_balance">
+              {{ client.balance | currency: "EUR":true }}
+            </span>
+            <small>
+              <a role="button" (click)="show_balance_input = !show_balance_input">
+                <i class="fa fa-pencil"></i>
+              </a>
+            </small>
+            </h3>
+
+            <div class="clearfix">
+              <form (click)="update_balance(id)" *ngIf="show_balance_input">
+                <div class="input-group">
+                  <input
+                  type="number"
+                  class="form-control"
+                  name="balance"
+                  [(ngModel)]="client.balance">
+                  
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary">
+                      Update
+                    </button>
+                  </span>
+                </div>
+              </form>                  "
+            </div> <!-- clear fix -->
+          </div> <!-- col md 4 -->
+        </div> <!-- row -->
+
+        <hr>
+
+        <ul class="list-group">
+          <li class="list-group-item">
+            Contact email: {{ client.email }}
+          </li>
+          <li *ngIf="client.phone != null" class="list-group-item">
+            Contact phone number: {{ client.phone }}
+          </li>
+        </ul>
+      </div> <!-- card body -->
+    </div> <!-- card -->
+  </div> <!-- container -->
+</section>

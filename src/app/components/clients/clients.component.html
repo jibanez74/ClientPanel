@@ -1,0 +1,66 @@
+<section id="table-clients">
+  <div class="container">
+    <div class="row bg-light">
+      <div class="col-md-8">
+        <h3>
+          <i class="fa fa-users"></i>
+          Your clients owe you a total amount of:
+        </h3>
+      </div>
+
+      <div class="col-md-4">
+        <h5 class="text-secondary text-right">
+          {{ total_balance_owe | currency: "USD": true }}
+        </h5>
+      </div>
+    </div>
+
+    <table class="table table-striped" *ngIf="clients.length > 0; else noClients">
+      <thead class="thead-inverse">
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          Email
+        </th>
+        <th>
+          Balance
+        </th>
+        <th>
+          <!-- th for btn -->
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let client of clients">
+        <td>
+          {{ client.firstName }} {{ client.lastName }}
+        </td>
+        <td>
+          {{ client.email }}
+        </td>
+        <td>
+          {{ client.balance }}
+        </td>
+        <td class="text-center">
+          <a [routerLink]="['/client/' + client.key]" class="btn btn-secondary btn-sm">
+            <i class="fa fa-arrow-circle-o-down"></i>
+            Details
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noClients>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h3 class="text-dark">
+            There are no clients in the data base!
+          </h3>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</section>
