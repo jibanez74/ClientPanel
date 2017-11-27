@@ -46,4 +46,8 @@ export class FirebaseService {
   modify_client (id: string, client: Client) {
     return this.clients_ref.update(id, client);
   }
+
+  remove_client (id: string) {
+    return this.clients_ref.remove(id);
+  }
 }

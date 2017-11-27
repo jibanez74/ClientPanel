@@ -7,6 +7,8 @@ import {
   ActivatedRoute,
   Params
 } from '@angular/router';
+import { SettingsService } from '../../services/settings.service';
+import { settings } from 'cluster';
 
 @Component({
   selector: 'app-client-details',
@@ -18,12 +20,14 @@ export class ClientDetailsComponent implements OnInit {
   has_balance: boolean;
   show_balance_input: boolean;
   client: Client;
+  disable_balance_input: boolean = false;
 
   constructor (
     private fsServ: FirebaseService,
     private _router: Router,
     private _activeRoute: ActivatedRoute,
-    private _flashMsg: FlashMessagesService
+    private _flashMsg: FlashMessagesService,
+    private _settingsServ: SettingsService
   ) {}
 
   ngOnInit () {
@@ -36,6 +40,18 @@ export class ClientDetailsComponent implements OnInit {
       }
       this.client = data;
     });
+    this.disable_balance_input = this._settingsServ.set_settings().disable_balance_on_edit;
+  }
+
+  click_to_delete () {
+    if (confirm("Are you sure you want to delete this client from the data base?")) {
+      this.fsServ.remove_client(this.id);
+      this._flashMsg.show(
+        "The client was removed from the data base",
+        {cssClass: 'alert-success', timeout: 6000}
+      );
+      this._router.navigate(['/'])
+    }
   }
 
   update_balance (id: string) {

@@ -1,4 +1,4 @@
-<section id="table-clients">
+<section *ngIf="clients?.length > 0; else noClients" id="table-clients">
   <div class="container">
     <div class="row bg-light">
       <div class="col-md-8">
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <table class="table table-striped" *ngIf="clients.length > 0; else noClients">
+    <table class="table table-striped">
       <thead class="thead-inverse">
       <tr>
         <th>
@@ -52,15 +52,17 @@
       </tr>
       </tbody>
     </table>
-
-    <ng-template #noClients>
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <h3 class="text-dark">
-            There are no clients in the data base!
-          </h3>
-        </div>
-      </div>
-    </ng-template>
   </div>
 </section>
+
+<ng-template #noClients>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>
+          There are no clients in the data base.
+        </h3>
+      </div>
+    </div>
+  </div>
+</ng-template>

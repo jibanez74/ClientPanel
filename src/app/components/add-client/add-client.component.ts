@@ -3,6 +3,7 @@ import { Client } from '../../interfaces/Client';
 import { FirebaseService } from '../../services/firebase.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'app-add-client',
@@ -17,16 +18,17 @@ export class AddClientComponent implements OnInit {
     phone: '',
     balance: 0
   }
-  disable_balance_on_add: boolean = true;
+  disable_balance_on_add: boolean = false;
 
   constructor (
     private fsServ: FirebaseService,
     private _router: Router,
-    private _flashMsg: FlashMessagesService
+    private _flashMsg: FlashMessagesService,
+    private _settingsServ: SettingsService
   ) {}
 
   ngOnInit () {
-
+    this.disable_balance_on_add = this._settingsServ.set_settings().disable_balance_on_add;
   }
 
   onSubmit (

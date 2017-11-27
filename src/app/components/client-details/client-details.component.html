@@ -23,7 +23,7 @@
     <div class="row">
       <div class="col-md-6">
         <div class="btn-group pull-left">
-          <a routerLink="['/edit-client/' + id]" role="button" class="btn btn-dark">
+          <a [routerLink]="['/edit-client/' + id]" role="button" class="btn btn-dark">
             Edit Client
           </a>
 
@@ -69,6 +69,7 @@
               <form (click)="update_balance(id)" *ngIf="show_balance_input">
                 <div class="input-group">
                   <input
+                  [disabled]="disable_balance_input"
                   type="number"
                   class="form-control"
                   name="balance"

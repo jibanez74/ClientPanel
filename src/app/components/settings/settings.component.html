@@ -1,3 +1,81 @@
-<p>
-  settings works!
-</p>
+<header class="mb-5 mt-0 p-3 bg-primary text-white" id="dashboard-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <h1>
+            <i class="pr-2 fa fa-cog"></i>
+            Settings
+          </h1>
+        </div>
+  
+        <div class="col-md-3">
+          <a routerLink="/" class="btn btn-light btn-block">
+            <i class="fa fa-arrow-circle-o-left"></i>
+            Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <section id="settings-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">
+                Change your settings
+              </h3>
+
+              <form (submit)="onSubmit()">
+                <div class="form-group">
+                  <label for="block_registration">
+                    Block the registration form
+                  </label>
+
+                  <input
+                  type="checkbox"
+                  name="block_registration"
+                  id="block_registration"
+                  [checked]="settings.block_registration"
+                  (change)="settings.block_registration = !settings.block_registration">
+                </div> <!-- form group -->
+
+                <div class="form-group">
+                  <label for="disable_balance_on_add">
+                    Disable the balance input field when adding a new client to the data base
+                  </label>
+
+                  <input
+                  type="checkbox"
+                  id="disable_balance_on_add"
+                  name="disable_balance_on_add"
+                  [checked]="settings.disable_balance_on_add"
+                  (change)="settings.disable_balance_on_add = !settings.disable_balance_on_add">
+                </div> <!-- form group -->
+
+                <div class="form-group">
+                  <label for="disable_balance_on_edit">
+                    Disable the balance input field on the edit client form
+                  </label>
+                  
+                  <input
+                  type="checkbox"
+                  name="disable_balance_on_edit"
+                  [checked]="settings.disable_balance_on_edit"
+                  (change)="settings.disable_balance_on_edit = !settings.disable_balance_on_edit"
+                  id="disable_balance_on_edit">
+                </div>
+
+                <button type="submit" class="btn btn-block btn-success">
+                  Save your changes
+                </button>
+
+              </form>
+            </div> <!-- card body -->
+          </div> <!-- card -->
+        </div> <!-- col md 12 -->
+      </div> <!-- row -->
+    </div> <!-- container -->
+  </section>

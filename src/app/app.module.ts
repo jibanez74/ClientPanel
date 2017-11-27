@@ -24,14 +24,19 @@ import { EditClientComponent } from './components/edit-client/edit-client.compon
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AboutComponent } from './components/about/about.component';
 
-//services imports list
+//services and guards imports list
 import { FirebaseService } from './services/firebase.service';
+import { SettingsService } from './services/settings.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+import { RegisterGuard } from './guards/register.guard';
 
 //app routes
 const panel_routes: Routes = [
     {
         path: '',
-        component: DashboardComponent
+        component: DashboardComponent,
+        canActivate: [ AuthGuard ]
     },
     {
         path: 'about',
@@ -39,19 +44,36 @@ const panel_routes: Routes = [
     },
     {
         path: 'register',
-        component: RegisterComponent
+        component: RegisterComponent,
+        canActivate: [ RegisterGuard ]
+    },
+    {
+        path: 'add-client',
+        component: AddClientComponent,
+        canActivate: [ AuthGuard ]
+    },
+    {
+        path: 'client/:id',
+        component: ClientDetailsComponent,
+        canActivate: [ AuthGuard ]
+    },
+    {
+        path: 'edit-client/:id',
+        component: EditClientComponent,
+        canActivate: [ AuthGuard ]
     },
     {
         path: 'login',
         component: LoginComponent
     },
     {
-        path: 'add-client',
-        component: AddClientComponent
+        path: 'settings',
+        component: SettingsComponent,
+        canActivate: [ AuthGuard ]
     },
     {
-        path: 'client/:id',
-        component: ClientDetailsComponent
+        path: '**',
+        component PageNotFoundComponent
     }
 ];
 
@@ -81,7 +103,11 @@ const panel_routes: Routes = [
     providers: [
         FirebaseService,
         AngularFireDatabase,
-        AngularFireDatabaseModule
+        AngularFireDatabaseModule,
+        SettingsService,
+        AuthService,
+        AuthGuard,
+        RegisterGuard
     ],
     bootstrap: [AppComponent]
 })

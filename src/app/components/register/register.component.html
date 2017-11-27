@@ -1,3 +1,63 @@
-<p>
-  register works!
-</p>
+<header class="mb-5 mt-0 p-3 bg-primary text-white" id="dashboard-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h1>
+            Welcome new user<i class="fa fa-exclamation"></i>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </header>
+    
+<section class="mt-4 p-5" id="login-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card bg-light text-dark">
+          <div class="card-body">
+            <h3 class="card-title text-center">
+              To register, simply fill in this simple form
+            </h3>
+
+            <form (submit)="onSubmit()">
+              <div class="form-group">
+                <label for="email">
+                  Email
+                </label>
+
+                <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                [(ngModel)]="email"
+                required
+                placeholder="type in your email">
+              </div> <!-- email group -->
+
+              <div class="form-group">
+                <label for="password">
+                  Password
+                </label>
+
+                <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                [(ngModel)]="password"
+                required
+                placeholder="type in your password">
+              </div> <!-- form group password -->
+
+              <button type="submit" class="btn btn-success btn-block">
+                Sign in
+              </button>
+            </form>
+          </div> <!-- card body -->
+        </div> <!-- card -->
+      </div> <!-- col md 6 -->
+    </div> <!-- row -->
+  </div> <!-- container -->
+</section>
