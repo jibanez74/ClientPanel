@@ -73,7 +73,7 @@ const panel_routes: Routes = [
     },
     {
         path: '**',
-        component PageNotFoundComponent
+        component: PageNotFoundComponent
     }
 ];
 

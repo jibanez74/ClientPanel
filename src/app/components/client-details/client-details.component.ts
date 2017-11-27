@@ -8,7 +8,7 @@ import {
   Params
 } from '@angular/router';
 import { SettingsService } from '../../services/settings.service';
-import { settings } from 'cluster';
+import { Settings } from '../../interfaces/Settings';
 
 @Component({
   selector: 'app-client-details',
