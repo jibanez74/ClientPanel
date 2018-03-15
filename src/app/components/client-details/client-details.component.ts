@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Client } from '../../interfaces/Client';
-import { FirebaseService } from '../../services/firebase.service';
+import { ClientsService } from '../../services/clients.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
-import {
-  Router,
-  ActivatedRoute,
-  Params
-} from '@angular/router';
 import { SettingsService } from '../../services/settings.service';
-import { Settings } from '../../interfaces/Settings';
 
 @Component({
   selector: 'app-client-details',
@@ -17,49 +12,53 @@ import { Settings } from '../../interfaces/Settings';
 })
 export class ClientDetailsComponent implements OnInit {
   id: string;
-  has_balance: boolean;
-  show_balance_input: boolean;
   client: Client;
-  disable_balance_input: boolean = false;
+  has_balance: boolean;
+  disable_balance_update_input: boolean;
+  enable_balance_on_edit: boolean;
 
   constructor (
-    private fsServ: FirebaseService,
+    private _flash: FlashMessagesService,
     private _router: Router,
     private _activeRoute: ActivatedRoute,
-    private _flashMsg: FlashMessagesService,
-    private _settingsServ: SettingsService
-  ) {}
+    private _settings: SettingsService,
+    private _clientsServ: ClientsService
+  ) {
+
+  }
 
   ngOnInit () {
-    //get id from the incomming URL
+    this.enable_balance_on_edit = this._settings.get_settings().enable_balance_on_edit;
+    //grab the client's id from the url
     this.id = this._activeRoute.snapshot.params['id'];
-    //then get the specific client comming in
-    this.fsServ.get_client(this.id).subscribe((data) => {
-      if (data.balance > 0) {
-        this.has_balance = true;
+    this._clientsServ.get_client_details(this.id).subscribe((data) => {
+      if (data != null) {
+        if (data.balance > 0) {
+          this.has_balance = true;
+        } else {
+          this.has_balance = false;
+        }
       }
       this.client = data;
     });
-    this.disable_balance_input = this._settingsServ.set_settings().disable_balance_on_edit;
   }
 
-  click_to_delete () {
-    if (confirm("Are you sure you want to delete this client from the data base?")) {
-      this.fsServ.remove_client(this.id);
-      this._flashMsg.show(
-        "The client was removed from the data base",
-        {cssClass: 'alert-success', timeout: 6000}
+  delete_client () {
+    if (confirm('Are you sure you want to completely remove this client from the system?')) {
+      this._clientsServ.remove_client(this.client);
+      this._flash.show(
+        'Client has been removed!',
+        {cssClass: 'alert-success', timeout: 5000}
       );
-      this._router.navigate(['/'])
+      this._router.navigate(['/']);
     }
   }
 
-  update_balance (id: string) {
-    this.fsServ.modify_client(this.id, this.client);
-    this._flashMsg.show(
-      "Balance has been updated!",
-      {cssClass: 'alert-success', timeout: 6000}
+  change_balance () {
+    this._clientsServ.edit_client(this.client);
+    this._flash.show(
+      'Balance has been updated!',
+      {cssClass: 'alert-success', timeout: 5000}
     );
-    this._router.navigate(['/client/' + this.id])
   }
 }

@@ -1,0 +1,53 @@
+<section class="m-3">
+  <div class="container">
+    <div *ngIf="clients?.length > 0; else noClients">
+      <div class="row">
+        <div class="col-md-8">
+          <h3 class="pull-left">
+            Your clients owe you
+          </h3>          
+        </div> <!-- col md 7 -->
+        <div class="col-md-4">
+          <h5 class="text-secondary pull-right">
+            Total: {{ total_owed | currency:"USD":"symbol"  }}
+          </h5>
+        </div> <!-- col md 5 -->
+      </div> <!-- row -->
+      <table class="table table-striped">
+        <thead class="thead-inverse">
+          <tr>
+            <th> Name </th>
+            <th> Email </th>
+            <th> Balance </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of clients">
+            <td>
+              {{ client.firstName }} {{ client.lastName }}
+            </td>
+            <td>
+              {{ client.email }}
+            </td>
+            <td>
+              {{ client.balance | currency:"USD":"symbol" }}
+            </td>
+            <td class="text-center">
+              <a role="button" routerLink="/client/{{ client.id }}" class="btn btn-secondary btn-sm">
+                <i class="fa fa-arrow-circle-o-right"></i>
+                Details
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div> <!-- ngIf -->
+
+    <ng-template #noClients>
+      <h3>
+        There are no clients in the system<i class="fa fa-exclamation"></i>
+      </h3>
+    </ng-template>
+  </div> <!-- container -->
+</section>

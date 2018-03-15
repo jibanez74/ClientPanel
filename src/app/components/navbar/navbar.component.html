@@ -1,50 +1,45 @@
-<nav class="navbar navbar-dark bg-dark navbar-expand-sm m-0 py-1 px-3">
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary px-2 py-1">
   <div class="container">
-
-    <a class="navbar-brand">
-      ClientPanel
-    </a>
-
+    <div class="navbar-brand">
+      Client Panel
+    </div>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-res">
-      <span class="navbar-toggler-icon"></span>
+      <i class="fa fa-bars"></i>
     </button>
-
     <div class="collapse navbar-collapse" id="nav-res">
       <ul class="navbar-nav mr-auto">
-        <li [hidden]="!is_logged_in" class="nav-item">
-          <a routerLink="/" class="nav-link">
+        <li *ngIf="user_is_auth" class="nav-item">
+          <a href="#" class="nav-link" routerLink="/">
             Dashboard
           </a>
         </li>
-        <li *ngIf="is_logged_in" class="nav-item">
-          <a routerLink="/settings" class="nav-link">
+        <li class="nav-item">
+          <a href="#" routerLink="/about" class="nav-link">
+          About App</a>
+        </li>
+      </ul> <!-- right -->
+      <ul class="nav ml-auto">
+        <li *ngIf="user_is_auth" class="nav-item">
+          <a href="#" routerLink="/settings" class="nav-link">
             Settings
           </a>
         </li>
-        <li class="nav-item">
-          <a routerLink="/about" class="nav-link">
-            About
-          </a>
-        </li>
-      </ul> <!-- mr auto -->
-
-      <ul class="navbar-nav ml-auto">
-        <li [hidden]="!block_registration" *ngIf="!is_logged_in" class="nav-item">
-          <a routerLink="/register" class="nav-link">
+        <li [hidden]="user_is_auth" *ngIf="allow_registration" class="nav-item">
+          <a href="#" class="nav-link" routerLink="/register">
             Register
           </a>
         </li>
-        <li *ngIf="!is_logged_in && !block_registration" class="nav-item">
-          <a routerLink="/login" class="nav-link">
+        <li [hidden]="!allow_registration" *ngIf="!user_is_auth" class="nav-item">
+          <a href="#" class="nav-link" routerLink="/login">
             Sign in
           </a>
         </li>
-        <li *ngIf="is_logged_in" class="nav-item">
-          <a class="nav-link" (click)="click_to_logout()">
+        <li *ngIf="user_is_auth" class="nav-item">
+          <a class="nav-link" (click)="signOut()" href="#">
             Sign out
           </a>
         </li>
       </ul>
-    </div> <!-- collapse -->
+    </div>
   </div> <!-- container -->
 </nav>

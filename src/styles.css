@@ -1,5 +1,23 @@
-body,html {height: 100%;}
+body, html {height: 100%;}
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+.bg-light {
+  background: lightgray !important;
+}
+
+.bg-dark {
+  background: black !important;
+}
+
+.text-dark {
+  color: black !important;
+}
+
+.alert {
+  text-align: center;
+  font-weight: bold;
+}
+
+.alert p {
+  padding: 0;
+  margin: 0;
 }

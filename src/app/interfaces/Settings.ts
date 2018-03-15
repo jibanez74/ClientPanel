@@ -1,5 +1,5 @@
 export interface Settings {
-  block_registration: boolean;
-  disable_balance_on_add: boolean;
-  disable_balance_on_edit: boolean;
+  enable_balance_on_add: boolean;
+  enable_balance_on_edit: boolean;
+  allow_registration: boolean;
 }

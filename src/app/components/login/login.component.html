@@ -1,64 +1,72 @@
-<header class="mb-5 mt-0 p-3 bg-primary text-white" id="dashboard-header">
+<header class="mb-5 mt-0 p-3 bg-light text-dark">
     <div class="container">
       <div class="row">
-        <div class="col-md-12 text-center">
-          <h1>
-            Welcome<i class="fa fa-exclamation"></i>
+        <div class="col-md-12">
+          <h1 class="text-center">
+            Sign in<i class="fa fa-exclamation"></i>
           </h1>
         </div>
       </div>
     </div>
   </header>
-    
-
-<section class="mt-4 p-5" id="login-section">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card bg-light text-dark">
-          <div class="card-body">
-            <h3 class="card-title text-center">
-              Please enter your log in credentials
-            </h3>
-
-            <form (submit)="onSubmit()">
-              <div class="form-group">
-                <label for="email">
-                  Email
-                </label>
-
-                <input
-                type="email"
-                class="form-control"
-                id="email"
-                name="email"
-                [(ngModel)]="email"
-                required
-                placeholder="type in your email">
-              </div> <!-- email group -->
-
-              <div class="form-group">
-                <label for="password">
-                  Password
-                </label>
-
-                <input
-                type="password"
-                class="form-control"
-                id="password"
-                name="password"
-                [(ngModel)]="password"
-                required
-                placeholder="type in your password">
-              </div> <!-- form group password -->
-
-              <button type="submit" class="btn btn-success btn-block">
-                Sign in
-              </button>
-            </form>
-          </div> <!-- card body -->
-        </div> <!-- card -->
-      </div> <!-- col md 6 -->
-    </div> <!-- row -->
-  </div> <!-- container -->
-</section>
+  <br>
+  <section>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body p-4">
+              <form (submit)="onSubmit()">
+                <div class="form-group">
+                  <label for="email">
+                    Email
+                  </label>
+  
+                  <input
+                  type="text"
+                  class="form-control"
+                  id="email"
+                  #userEmail="ngModel"
+                  required
+                  name="user_email"
+                  [(ngModel)]="user_email"
+                  [ngClass]="{'is-invalid': userEmail.errors && userEmail.touched}"
+                  placeholder="enter your email address"
+                  autofocus>
+                  
+                  <div class="invalid-feedback" [hidden]="!userEmail.errors?.required ">
+                    Email is required!
+                  </div>
+                </div>
+                <br>
+                <div class="form-group">
+                  <label for="password">
+                    Password
+                  </label>
+  
+                  <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  #userPassword="ngModel"
+                  name="user_password"
+                  [(ngModel)]="user_password"
+                  required
+                  [ngClass]="{'is-invalid': userPassword.errors && userPassword.touched}"
+                  placeholder="type a password">
+  
+                  <div [hidden]="!userPassword.errors?.required" class="invalid-feedback">
+                  Password is required!
+                  </div>
+                </div> <!-- password -->
+                <br>
+                <button type="submit" class="btn btn-block btn-primary">
+                  Sign in
+                </button>
+              </form>
+            </div> <!-- card body -->
+          </div> <!-- card -->
+        </div> <!-- col md 6 -->
+      </div> <!-- row -->
+    </div> <!-- container -->
+  </section>

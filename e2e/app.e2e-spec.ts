@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('client-panel App', () => {
+describe('ng-panel App', () => {
   let page: AppPage;
 
   beforeEach(() => {

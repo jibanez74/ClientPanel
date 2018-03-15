@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { Client } from '../../interfaces/Client';
+import { FlashMessagesService } from 'angular2-flash-messages';
 import { SettingsService } from '../../services/settings.service';
+import { Settings } from '../../interfaces/Settings';
 
 @Component({
   selector: 'app-navbar',
@@ -10,34 +12,34 @@ import { SettingsService } from '../../services/settings.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  current_user: string;
-  is_logged_in: boolean;
-  block_registration: boolean = false;
+  user_is_auth: boolean;
+  allow_registration: boolean;
 
   constructor (
-    private _router: Router,
-    private _flashMsg: FlashMessagesService,
+    private _settings: SettingsService,
     private _auth: AuthService,
-    private _settings: SettingsService
+    private _router: Router,
+    private _flash: FlashMessagesService
   ) {}
 
   ngOnInit () {
-    this.block_registration = this._settings.set_settings().block_registration;
-    this._auth.get_auth_state().subscribe((res) => {
-      if (res) {
-        this.is_logged_in = true;
-        this.current_user = res.email;
+    this.allow_registration = this._settings.get_settings().allow_registration;
+    this._auth.get_auth().subscribe((data) => {
+      //data is simply a true or false value coming from firestore
+      //if its true user is logged in, else is false and user is not logged in
+      if (data) {
+        this.user_is_auth = true;
       } else {
-        this.is_logged_in = false;
+        this.user_is_auth = false;
       }
-    })
+    });
   }
 
-  click_to_logout () {
+  signOut () {
     this._auth.logout();
-    this._flashMsg.show(
-      'You have logged out successfully',
-      {cssClass: 'alert-success', timeout: 6000}
+    this._flash.show(
+      'You have successfully logged out',
+      {cssClass: 'alert-success', timeout: 5000}
     );
     this._router.navigate(['/login']);
   }

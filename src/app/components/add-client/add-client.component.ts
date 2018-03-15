@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Client } from '../../interfaces/Client';
-import { FirebaseService } from '../../services/firebase.service';
+import { ClientsService } from '../../services/clients.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { SettingsService } from '../../services/settings.service';
@@ -14,42 +14,43 @@ export class AddClientComponent implements OnInit {
   client: Client = {
     firstName: '',
     lastName: '',
-    email: '',
     phone: '',
+    email: '',
     balance: 0
   }
-  disable_balance_on_add: boolean = false;
+  enable_balance_on_add: boolean;
+  @ViewChild('clientForm') form: any;
 
   constructor (
-    private fsServ: FirebaseService,
+    private _settings: SettingsService,
+    private _clientsServ: ClientsService,
     private _router: Router,
-    private _flashMsg: FlashMessagesService,
-    private _settingsServ: SettingsService
+    private _flash: FlashMessagesService
   ) {}
 
   ngOnInit () {
-    this.disable_balance_on_add = this._settingsServ.set_settings().disable_balance_on_add;
+    this.enable_balance_on_add = this._settings.get_settings().enable_balance_on_add;
   }
 
   onSubmit (
-    {value, valid} : {value: Client, valid: boolean}
+    {value, valid}:{value: Client, valid: boolean}
   ) {
-    if (this.disable_balance_on_add) {
+    //if there is no balance, make it 0
+    if (!this.enable_balance_on_add) {
       value.balance = 0;
     }
-    //if else to add add a client or reject form submition
+
+    //process form
     if (!valid) {
-      this._flashMsg.show(
-        'Please fill in all required fields',
-        {cssClass: 'alert-danger', timeout: 6000}
+      this._flash.show(
+        'Please fill in the form correctly!',
+        {cssClass: 'alert-danger', timeout: 10000}
       );
-      this._router.navigate(['/add-client']);
     } else {
-      //add client to the db
-      this.fsServ.add_new_client(value);
-      this._flashMsg.show(
-        'New client added successfully to Firebase',
-        {cssClass: 'alert-success', timeout: 6000}
+      this._clientsServ.add_new_client(value);
+      this._flash.show(
+        'New client has been added!',
+        {cssClass: 'alert-success', timeout: 5000}
       );
       this._router.navigate(['/']);
     }

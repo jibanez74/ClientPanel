@@ -1,40 +1,40 @@
+//this file/service is responsable for user auth 
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
-import { reject } from 'q';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private _auth: AngularFireAuth) { }
+  constructor (private _fireAuth: AngularFireAuth) {}
 
-  login (
-    email: string, passwd: string
-  ) {
+  //simple function for sign in
+  login (email: string, password: string) {
     return new Promise((resolve, reject) => {
-      this._auth.auth.signInWithEmailAndPassword(email, passwd).then(
-        userData => resolve(userData),
-        err => reject(err)
+     this._fireAuth.auth.signInWithEmailAndPassword(email, password).then(
+       user_data => resolve(user_data),
+       err => reject(err)
+     );
+    });
+  }
+
+  //checks user status - meaning if loggedin or not
+  get_auth () {
+    return this._fireAuth.authState.map(auth => auth);
+  }
+
+  //logout function
+  logout () {
+    this._fireAuth.auth.signOut();
+  }
+
+  //add new user to firebase - in other words register
+  register (email: string, password: string) {
+    return new Promise((resolve, reject) => {
+      this._fireAuth.auth.createUserWithEmailAndPassword(email, password).then(
+        user_data => resolve(user_data),
+        err => reject(err) 
       );
     });
-  }
-
-  register_user (
-    email: string, passwd: string
-  ) {
-    return new Promise((resolve, reject) => {
-      this._auth.auth.createUserWithEmailAndPassword(email, passwd).then(
-        userData => resolve(userData),
-        err => reject(err)
-      )
-    });
-  }
-
-  logout () {
-    this._auth.auth.signOut();
-  }
-
-  get_auth_state () {
-    return this._auth.authState.map(auth => auth);
   }
 }

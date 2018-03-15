@@ -1,131 +1,104 @@
-<header class="mb-5 mt-0 p-3 bg-primary text-white" id="dashboard-header">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-9">
-        <h1>
-          <i class="pr-2 fa fa-plus"></i>
-          Add Client
-        </h1>
-      </div>
-
-      <div class="col-md-3">
-        <a routerLink="/" class="btn btn-light btn-block">
-          <i class="fa fa-arrow-circle-o-left"></i>
-          Dashboard
-        </a>
+<header class="mb-5 mt-0 p-3 bg-light text-dark">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>
+            <i class="pr-2 fa fa-plus"></i>
+            Add Client
+          </h1>
+        </div>
       </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<section id="add-client-section">
+<section>
   <div class="container">
-    <form novalidate #f="ngForm" (ngSubmit)="onSubmit(f)">
-      <div class="card">
+    <form #ClientForm="ngForm" (ngSubmit)="onSubmit(ClientForm)">
+      <div class="card m-3">
         <div class="card-header">
-          <h3 class="card-title">
-            Add Client Form
-          </h3>
-          <p class="card-text">
-            Below, the form to add a client to the data base.  In order for the client to be added successfully all fields are required, exceipt the phone, which is optional.  Note that only admin users can edit or add a client's balance.
-          </p>
-        </div>
-
-        <div class="card-body">
+          <h4 class="card-title text-center">
+            Fill out the form below to add a new client!
+          </h4>
+        </div> <!-- header -->
+        <div class="card-bodyy p-4">
           <div class="form-group">
             <label for="firstName">
               Client's first name
             </label>
-
             <input
             type="text"
             class="form-control"
-            [(ngModel)]="client.firstName"
             name="firstName"
-            #clientFirstname="ngModel"
+            [(ngModel)]="client.firstName"
+            #clientFirstName="ngModel"
             required
             minlength="2"
-            placeholder="enter client's first name"
-            [ngClass]="{'is-invalid': clientFirstname.errors?.required && clientFirstname.touched || clientFirstname.errors?.minlength}"
-            >
+            maxlength="30"
+            [ngClass]="{'is-invalid': clientFirstName.errors && clientFirstName.touched}">
 
-            <div *ngIf="clientFirstname.errors?.minlength && clientFirstname.touched" class="invalid-feedback">
-              WARNING!  First name must be at least 2 chracters long.
+            <div [hidden]="!clientFirstName.errors?.required" class="invalid-feedback">
+              Required field!
             </div>
-            <div *ngIf="clientFirstname.errors?.required && clientFirstname.touched" class="invalid-feedback">
-              WARNING!  First name is required.
+            <div [hidden]="!clientFirstName.errors?.minlength" class="invalid-feedback">
+              Name must be at least 2 characters long and no more than 30!
             </div>
-          </div> <!-- form group first name -->
-
+          </div> <!-- first name -->
           <div class="form-group">
             <label for="lastName">
-              Client's surname
+              Client's last name
             </label>
-
             <input
             type="text"
             class="form-control"
-            [(ngModel)]="client.lastName"
-            name="lastName"
-            #clientLastname="ngModel"
             required
             minlength="2"
-            placeholder="enter client's surname"
-            [ngClass]="{'is-invalid': clientLastname.errors?.required && clientLastname.touched || client.errors?.minlength}"
-            >
+            maxlength="30"
+            name="lastName"
+            [(ngModel)]="client.lastName"
+            [ngClass]="{'is-invalid': clientLastName.errors && clientLastName.touched}"
+            #clientLastName="ngModel">
 
-            <div class="invalid-feedback">
-              WARNING!  Surname must be at least 2 characters long.
-            </div>
-            <div *ngIf="clientLastname.errors?.required && clientLastname.touched" class="invalid-feedback">
-              WARNING!  Surname is required.
-            </div>
-          </div> <!-- form group for last name -->
-        
-          <div class="form-group">
-            <label for="email">
-              Client's email
-            </label>
-
-            <input
-            type="email"
-            class="form-control"
-            [(ngModel)]="client.email"
-            name="email"
-            placeholder="enter client's email address"
-            required
-            [ngClass]="{'is-invalid':clientEmail.errors?.required && clientEmail.touched || clientEmail.errors?.pattern}"
-            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-            #clientEmail="ngModel"
-            >
-
-            <div *ngIf="clientEmail.errors?.required && clientEmail.touched" class="invalid-feedback">
-              WARNING! Please enter a valid email address.
-            </div>
-          </div> <!-- form group for email -->
-
+            <div [hidden]="!clientLastName.errors?.required" class="invalid-feedback">
+                Required field!
+              </div>
+              <div [hidden]="!clientLastName.errors?.minlength" class="invalid-feedback">
+                Last name must be at least 2 characters long and no more than 30!
+              </div>
+          </div> <!-- last name -->
           <div class="form-group">
             <label for="phone">
-              Client's phone
+              Client's phone number (optional)
             </label>
-
             <input
             type="text"
             class="form-control"
-            [(ngModel)]="client.phone"
             name="phone"
-            #clientPhone="ngModel"
-            minlength="7"
-            placeholder="enter client's phone number"
-            [ngClass]="{'is-invalid': clientPhone.errors?.minlength && client.touched}"
-            >
+            [(ngModel)]="client.phone"
+            #clientPhone="ngModel">
+          </div> <!-- phone -->
+          <div class="form-group">
+            <label for="label">
+              Client's email address
+            </label>
+            
+            <input
+            type="text"
+            class="form-control"
+            required
+            name="email"
+            [(ngModel)]="client.email"
+            #clientEmail="ngModel"
+            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+            [ngClass]="{'is-invalid': clientEmail.errors && clientEmail.touched}">
 
-            <div class="invalid-feedback">
-              WARNING!  Please enter a valid phone number.
+            <div [hidden]="!clientEmail.errors?.pattern" class="invalid-feedback">
+              Enter a valid email address!
             </div>
-          </div> <!-- form group email -->
-
-          <div [hidden]="disable_balance_on_add" class="form-group">
+            <div [hidden]="!clientEmail.errors?.required" class="invalid-feedback">
+              Required field!
+            </div>
+          </div> <!-- email -->
+          <div *ngIf="enable_balance_on_add" class="form-group">
             <label for="balance">
               Client's balance
             </label>
@@ -133,21 +106,17 @@
             <input
             type="number"
             class="form-control"
-            [(ngModel)]="client.balance"
             name="balance"
-            #clientBalance="ngModel"
-            [disabled]="disable_balance_on_add"
-            >
-          </div> <!-- form group for balance -->
-        </div> <!-- card body -->
-
+            [(ngModel)]="client.balance"
+            #clientBalance="ngModel">
+          </div> <!-- balance -->
+        </div> <!-- body -->
         <div class="card-footer">
-          <button type="submit" class="btn btn-success btn-block">
-            Submit!
+          <button type="submit" class="btn btn-primary btn-block">
+            Submit<i class="fa fa-exclamation"></i>
           </button>
-        </div>
+        </div> <!-- footer -->
       </div> <!-- card -->
     </form>
   </div> <!-- container -->
 </section>
-

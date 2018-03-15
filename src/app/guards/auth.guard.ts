@@ -1,9 +1,7 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
-import { Route } from '@angular/router/src/config';
-import { AngularFireAction } from 'angularfire2/database/interfaces';
+import { Observable } from 'rxjs/observable';
 
 @Injectable ()
 export class AuthGuard implements CanActivate {
@@ -13,12 +11,12 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate (): Observable<boolean> {
-    return this._auth.authState.map(auth => {
-      if (!auth) {
+    return this._auth.authState.map((data) => {
+      if (data) {
+        return true;
+      } else {
         this._router.navigate(['/login']);
         return false;
-      } else {
-        return true;
       }
     });
   }

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
-import { Route } from '@angular/router/src/config';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,31 +9,35 @@ import { Route } from '@angular/router/src/config';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  email: string;
-  password: string;
+  user_email: string;
+  user_password: string;
 
   constructor (
     private _router: Router,
-    private _flashMsg: FlashMessagesService,
-    private _authServ: AuthService
+    private _flash: FlashMessagesService,
+    private _auth: AuthService
   ) {}
 
-  ngOnInit() {
+  ngOnInit () {
+    this._auth.get_auth().subscribe((state) => {
+      if (state) {
+        this._router.navigate(['/']);
+      }
+    });
   }
 
   onSubmit () {
-    this._authServ.login(this.email, this.password).then((res) => {
-      this._flashMsg.show(
-        'Log in successfull',
-        {cssClass: 'alert-success', timeout: 6000}
+    this._auth.login(this.user_email, this.user_password).then((res) => {
+      this._flash.show(
+        'You have successfully logged in!',
+        {cssClass: 'alert-success', timeout: 5000}
       );
       this._router.navigate(['/']);
-    }).catch((err) => {
-      this._flashMsg.show(
-        err.message,
-        {cssClass: 'alert-danger', timeout: 6000}
+    }).catch((res) => {
+      this._flash.show(
+        res,
+        {cssClass: 'alert-danger', timeout: 10000}
       );
-      this._router.navigate(['/login']);
-    })
+    });
   }
 }
