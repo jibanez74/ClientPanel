@@ -4,13 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: true, //for testing the final product we've set this to true, but for full production you should use the environment.prod.ts
+  production: false,
   firebase: {
-    apiKey: "AIzaSyCPBxyKkl-p76NT7_pMaBSUVk8ztyKfpDk",
-    authDomain: "ngpanel-4a878.firebaseapp.com",
-    databaseURL: "https://ngpanel-4a878.firebaseio.com",
-    projectId: "ngpanel-4a878",
-    storageBucket: "ngpanel-4a878.appspot.com",
-    messagingSenderId: "1023244676904"
+    //add your firebase credentials here - you can find them in the overview of you firebase project
   }
 };
