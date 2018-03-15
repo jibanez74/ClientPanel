@@ -8,6 +8,7 @@
 
 # dependencies
 /node_modules
+/panelV1.zip
 
 # IDEs and editors
 /.idea
