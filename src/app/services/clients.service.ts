@@ -2,7 +2,7 @@
 // Any questions about specific firestore functions, please refere to the firebase documentation// 
 import { Injectable } from '@angular/core';
 import { Client } from '../interfaces/Client';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs';
 import {
   AngularFirestore,
   AngularFirestoreCollection,

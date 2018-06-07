@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs';
 
-@Injectable ()
+@Injectable()
 export class AuthGuard implements CanActivate {
-  constructor (
+  constructor(
     private _router: Router,
     private _auth: AngularFireAuth
-  ) {}
+  ) { }
 
-  canActivate (): Observable<boolean> {
+  canActivate(): Observable<boolean> {
     return this._auth.authState.map((data) => {
       if (data) {
         return true;
